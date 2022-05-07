@@ -2,12 +2,12 @@ package com.zensar.olxmasterapplication.service;
 
 import java.util.List;
 
-import com.zensar.olxmasterapplication.entity.Category;
-import com.zensar.olxmasterapplication.entity.Status;
+import com.zensar.olxmasterapplication.entity.CategoryDto;
+import com.zensar.olxmasterapplication.entity.StatusDto;
 
 public interface MasterService {
 
-	List<Category> getAllCategory();
+	List<CategoryDto> getAllCategory();
 
-	List<Status> getAllStatus();
+	List<StatusDto> getAllStatus();
 }
