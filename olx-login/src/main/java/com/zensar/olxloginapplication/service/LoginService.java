@@ -1,15 +1,15 @@
 package com.zensar.olxloginapplication.service;
 
-import com.zensar.olxloginapplication.entity.Token;
-import com.zensar.olxloginapplication.entity.User;
+import com.zensar.olxloginapplication.entity.TokenDto;
+import com.zensar.olxloginapplication.entity.UserDto;
 
 public interface LoginService {
 
-	Token userAuthentication(User user);
+	TokenDto userAuthentication(UserDto user);
 
 	boolean logoutUser(String token1);
 
-	String ResisterUser(User user);
+	UserDto ResisterUser(UserDto user);
 
-	User getUserInfo(int id, String token2);
+	UserDto getUserInfo(long id, String token2);
 }

@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zensar.olxloginapplication.entity.Token;
+import com.zensar.olxloginapplication.entity.TokenDto;
 import com.zensar.olxloginapplication.entity.User;
+import com.zensar.olxloginapplication.entity.UserDto;
 import com.zensar.olxloginapplication.service.LoginService;
 
 @RestController
@@ -28,7 +30,7 @@ public class LoginController {
 	@PostMapping(value = "/authenticate", produces = { MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_VALUE }, consumes = { MediaType.APPLICATION_XML_VALUE,
 					MediaType.APPLICATION_JSON_VALUE })
-	public Token userAuthentication(@RequestBody User user) {
+	public TokenDto userAuthentication(@RequestBody UserDto user) {
 		return loginService.userAuthentication(user);
 	}
 
@@ -40,14 +42,16 @@ public class LoginController {
 
 	// request 3
 	@PostMapping(consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<String> ResisterUser(@RequestBody User user) {
-		String resisterUser = loginService.ResisterUser(user);
-		return new ResponseEntity<String>(resisterUser, HttpStatus.CREATED);
+	public ResponseEntity<UserDto> ResisterUser(@RequestBody UserDto user) {
+		UserDto resisterUser = loginService.ResisterUser(user);
+		if(resisterUser==null)
+		return new ResponseEntity<UserDto>(resisterUser, HttpStatus.BAD_REQUEST);
+		else return new ResponseEntity<UserDto>(resisterUser, HttpStatus.CREATED);
 	}
 
 	// request 4
 	@GetMapping(value = "/{userId}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
-	public User getUserInfo(@PathVariable("userId") int id, @RequestHeader("auth-token") String token2) {
+	public UserDto getUserInfo(@PathVariable("userId") long id, @RequestHeader("auth-token") String token2) {
 		return loginService.getUserInfo(id, token2);
 	}
 

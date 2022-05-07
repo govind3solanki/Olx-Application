@@ -1,34 +1,46 @@
 package com.zensar.olxloginapplication.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zensar.olxloginapplication.entity.Token;
+import com.zensar.olxloginapplication.entity.TokenDto;
 import com.zensar.olxloginapplication.entity.User;
+import com.zensar.olxloginapplication.entity.UserDto;
+import com.zensar.olxloginapplication.repository.LoginRepository;
 
 @Service
-public class LoginServiceImpl implements LoginService{
+public class LoginServiceImpl implements LoginService {
 
-	Token token = new Token("auth-token", "gs66548");
-	List<User> userList = new ArrayList<>();
+	Token token = new Token();
+		
+	@Autowired
+	private LoginRepository loginRepository;
 
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	@Override
-	public Token userAuthentication(User user) {
+	public TokenDto userAuthentication(UserDto user) {
 		if (user.getUserName().equals("anand") && user.getPassword().equals("anand123")) {
-			// token=new Token("auth-token","gs66548");
-			return token;
+			token.setKye("auth-token");
+			 Random rand = new Random();
+		        int random = rand.nextInt(1000);
+		        String s="gs6654"+random+"";
+		        System.out.println(s);
+			token.setValue(s);
+			return modelMapper.map(token,TokenDto.class);
 		}
 		return null;
 	}
 
 	@Override
 	public boolean logoutUser(String token1) {
-		if (token1.equalsIgnoreCase("gs66548")) {
+		if (token1.equalsIgnoreCase(token.getValue())) {
 			token.setKye(null);
 			token.setValue(null);
 			return true;
@@ -37,22 +49,19 @@ public class LoginServiceImpl implements LoginService{
 	}
 
 	@Override
-	public String ResisterUser(User user) {
-		if (token.getKye().equals("auth-token") && token.getValue().equals("gs66548")) {
-			userList.add(user);
-			return "User resister succesfully";
-		} else
-			return "User not resister succesfully";
+	public UserDto ResisterUser(UserDto user) {
+			loginRepository.save(modelMapper.map(user,User.class));
+			return user;
 	}
 
 	@Override
-	public User getUserInfo(int id, String token2) {
+	public UserDto getUserInfo(long id, String token2) {
 		if (token.getValue().equals(token2)) {
-			Optional<User> findAny = userList.stream().filter(user -> user.getId() == id).findAny();
-			if (findAny.isPresent())
-				return findAny.get();
-			else
-				return findAny.orElseGet(() -> new User());
+			Optional<User> findById = loginRepository.findById(id);
+			if (findById.isPresent()) {
+				return modelMapper.map(findById.get(),UserDto.class);
+			} else
+				return null;
 		} else
 			return null;
 	}
