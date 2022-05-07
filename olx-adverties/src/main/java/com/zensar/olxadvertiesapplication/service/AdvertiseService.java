@@ -2,30 +2,25 @@ package com.zensar.olxadvertiesapplication.service;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-
-import com.zensar.olxadvertiesapplication.entity.Advertise;
+import com.zensar.olxadvertiesapplication.entity.AdvertiseRequest;
+import com.zensar.olxadvertiesapplication.entity.AdvertiseResponse;
 
 public interface AdvertiseService {
 
-	 Advertise addAdvertise( Advertise advertise1,String token);
-	 
-	 Advertise updateAdvertise(int id,Advertise advertise2,String token2);
-	 
-	 List<Advertise> getAllAdvertise(String token3);
-	 
-	 Advertise getSpecificAdvertise(int id, String token4);
-	 
-	 boolean deleteSpecificAdvertise(int id,String token5);
-	 
-	 List<Advertise> getFilteredAdvertise(String filterCriteria);
-	 
-	 List<Advertise> getAdvertiseByText(String search);
-	 
-	 Advertise getAdvertiseById(int postId,String token6);
-	 
-	 
-	 
+	AdvertiseResponse addAdvertise(AdvertiseRequest advertise1, String token);
+
+	AdvertiseResponse updateAdvertise(long id, AdvertiseRequest advertise2, String token2);
+
+	List<AdvertiseResponse> getAllAdvertise(String token3);
+
+	AdvertiseResponse getSpecificAdvertise(long id, String token4);
+
+	boolean deleteSpecificAdvertise(long id, String token5);
+
+	List<AdvertiseResponse> getFilteredAdvertise(String searchText, String category);
+
+	List<AdvertiseResponse> getAdvertiseByText(String searchText);
+
+	AdvertiseResponse getAdvertiseById(long postId, String token6);
+
 }

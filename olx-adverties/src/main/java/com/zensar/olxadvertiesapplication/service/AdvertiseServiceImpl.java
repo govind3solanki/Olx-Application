@@ -3,86 +3,86 @@ package com.zensar.olxadvertiesapplication.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zensar.olxadvertiesapplication.entity.Advertise;
+import com.zensar.olxadvertiesapplication.entity.AdvertiseRequest;
+import com.zensar.olxadvertiesapplication.entity.AdvertiseResponse;
+import com.zensar.olxadvertiesapplication.repository.AdvertiseRepository;
 
 @Service
 public class AdvertiseServiceImpl implements AdvertiseService {
 
-	static List<Advertise> advertiseList = new ArrayList<>();
-	static {
-		advertiseList.add(new Advertise(1, "laptop", 54000, "Electronics Goods", "Intel Core 3 Sony Vaio", "anand",
-				"xxx", "xxx", "OPEN"));
-		advertiseList.add(new Advertise(2, "Computer", 59000, "Computer Goods", "Intel Core 9 Razor Gaming", "anand",
-				"xxx", "xxx", "OPEN"));
-	}
+	@Autowired
+	private AdvertiseRepository advertiseRepository;
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Override
-	public Advertise addAdvertise(Advertise advertise1, String token) {
+	public AdvertiseResponse addAdvertise(AdvertiseRequest advertise1, String token) {
 		if (token.equals("gs66548")) {
 			Advertise advertise = new Advertise(0, null, 0, "Electronic goods", null, "anand", "xxx", "xxx", "OPEN");
-			advertise.setCategoryId(advertise1.getCategoryId());
+			advertise.setId(advertise1.getCategoryId());
 			advertise.setTitle(advertise1.getTitle());
 			advertise.setPrice(advertise1.getPrice());
 			advertise.setDescription(advertise1.getDescription());
-			advertiseList.add(advertise);
-			return advertise;
+			advertiseRepository.save(advertise);
+			return modelMapper.map(advertise, AdvertiseResponse.class);
 		} else
 			return null;
 	}
 
 	@Override
-	public Advertise updateAdvertise(int id, Advertise advertise2, String token2) {
+	public AdvertiseResponse updateAdvertise(long id, AdvertiseRequest advertise2, String token2) {
 		if (token2.equals("gs66548")) {
-			Optional<Advertise> findAny = advertiseList.stream().filter(advertise -> advertise.getCategoryId() == id)
-					.findAny();
-			if (findAny.isPresent()) {
-				Advertise adv = findAny.get();
-				adv.setTitle(advertise2.getTitle());
-				adv.setPrice(advertise2.getPrice());
-				adv.setCategoryId(advertise2.getCategoryId());
-				adv.setDescription(advertise2.getDescription());
-				return adv;
-			} else 
-				return findAny.orElseGet(() -> new Advertise());
+			AdvertiseResponse advertiseById = getAdvertiseById(id, token2);
+			Advertise map = modelMapper.map(advertiseById,Advertise.class);
+			map.setTitle(advertise2.getTitle());
+			map.setPrice(advertise2.getPrice());
+			//map.setId(advertise2.getStatusId());
+			map.setDescription(advertise2.getDescription());
+				return modelMapper.map(advertiseRepository.save(map), AdvertiseResponse.class);
 		} else
 			return null;
 	}
 
 	@Override
-	public List<Advertise> getAllAdvertise(String token3) {
-		if (token3.equals("gs66548"))
-			return advertiseList;
-		else
+	public List<AdvertiseResponse> getAllAdvertise(String token3) {
+		if (token3.equals("gs66548")) {
+			List<Advertise> findAll = advertiseRepository.findAll();
+			List<AdvertiseResponse> listOfResponse = new ArrayList<AdvertiseResponse>();
+			for (Advertise advertise : findAll) {
+				listOfResponse.add(modelMapper.map(advertise, AdvertiseResponse.class));
+			}
+			return listOfResponse;
+		} else
 			return null;
 	}
 
 	@Override
-	public Advertise getSpecificAdvertise(int id, String token4) {
+	public AdvertiseResponse getSpecificAdvertise(long id, String token4) {
 		if (token4.equals("gs66548")) {
-			Optional<Advertise> findAny = advertiseList.stream().filter(advertise -> advertise.getCategoryId() == id)
-					.findAny();
-
-			if (findAny.isPresent())
-				return findAny.get();
+			Optional<Advertise> findById = advertiseRepository.findById(id);
+			if (findById.isPresent())
+				return modelMapper.map(findById.get(), AdvertiseResponse.class);
 			else
-				return findAny.orElseGet(() -> new Advertise());
+				return null;
 		} else
 			return null;
 	}
 
 	@Override
-	public boolean deleteSpecificAdvertise(int id, String token5) {
+	public boolean deleteSpecificAdvertise(long id, String token5) {
 		if (token5.equals("gs66548")) {
-			Optional<Advertise> findAny = advertiseList.stream().filter(advertise -> advertise.getCategoryId() == id)
-					.findAny();
-
-			if (findAny.isPresent()) {
-				Advertise advertise = findAny.get();
-				advertiseList.remove(advertise);
+			Optional<Advertise> findById = advertiseRepository.findById(id);
+			if (findById.isPresent()) {
+				Advertise advertise = findById.get();
+				advertiseRepository.delete(advertise);
+				;
 				return true;
 			} else
 				return false;
@@ -91,32 +91,34 @@ public class AdvertiseServiceImpl implements AdvertiseService {
 	}
 
 	@Override
-	public List<Advertise> getFilteredAdvertise(String filterCriteria) {
-		if (filterCriteria.equals("status"))
-			return advertiseList;
-		else
-			return null;
+	public List<AdvertiseResponse> getFilteredAdvertise(String searchText,String category) {
+				List<Advertise> findAll = advertiseRepository.searchByFilterCriteria(searchText,category);
+				List<AdvertiseResponse> listOfResponse = new ArrayList<AdvertiseResponse>();
+				for (Advertise advertise : findAll)
+					listOfResponse.add(modelMapper.map(advertise, AdvertiseResponse.class));
+				return listOfResponse;
+			
 	}
 
 	@Override
-	public List<Advertise> getAdvertiseByText(String search) {
-		if (search.equals("categoryId"))
-			return advertiseList;
-		else
-			return null;
+	public List<AdvertiseResponse> getAdvertiseByText(String searchText) {
+		
+				List<Advertise> findAll = advertiseRepository.searchByText(searchText);
+				List<AdvertiseResponse> listOfResponse = new ArrayList<AdvertiseResponse>();
+				for (Advertise advertise : findAll) 
+					listOfResponse.add(modelMapper.map(advertise, AdvertiseResponse.class));
+				return listOfResponse;
 
 	}
 
 	@Override
-	public Advertise getAdvertiseById(int postId, String token6) {
+	public AdvertiseResponse getAdvertiseById(long postId, String token6) {
 		if (token6.equals("gs66548")) {
-			Optional<Advertise> findAny = advertiseList.stream()
-					.filter(advertise -> advertise.getCategoryId() == postId).findAny();
-
-			if (findAny.isPresent())
-				return findAny.get();
+			Optional<Advertise> findById = advertiseRepository.findById(postId);
+			if (findById.isPresent())
+				return modelMapper.map(findById.get(), AdvertiseResponse.class);
 			else
-				return findAny.orElseGet(() -> new Advertise());
+				return null;
 		} else
 			return null;
 	}

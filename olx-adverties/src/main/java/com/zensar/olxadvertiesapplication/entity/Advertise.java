@@ -1,5 +1,9 @@
 package com.zensar.olxadvertiesapplication.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,9 +11,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "advertise")
 public class Advertise {
 
-	private int categoryId;
+	@Id
+	private long Id;
 	private String title;
 	private int price;
 	private String category;
