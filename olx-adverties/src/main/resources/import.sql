@@ -1,0 +1,2 @@
+insert into advertise values(1,"Electronics Goods", "xxx", "Intel Core 3 Sony Vaio","xxx", 54000, "OPEN", "laptop", "anand");
+insert into advertise values(2,  "Computer Goods","xxx","Intel Core 9 Razor Gaming", "xxx",59000, "OPEN","Computer",  "anand");
