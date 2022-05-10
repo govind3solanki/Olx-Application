@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.zensar.olxmasterapplication.entity.Status;
 
 @Repository
-public interface StatusRepository extends JpaRepository<Status, Long>{
+public interface StatusRepository extends JpaRepository<Status, Long> {
 
 }

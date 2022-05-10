@@ -8,7 +8,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class OlxMasterApplication extends SpringBootServletInitializer{
+public class OlxMasterApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OlxMasterApplication.class, args);
@@ -18,9 +18,10 @@ public class OlxMasterApplication extends SpringBootServletInitializer{
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return super.configure(builder);
 	}
+
 	@Bean
 	public ModelMapper modeMapper() {
 		return new ModelMapper();
 	}
-	
+
 }

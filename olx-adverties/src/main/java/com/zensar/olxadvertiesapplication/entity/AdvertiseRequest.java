@@ -14,4 +14,4 @@ public class AdvertiseRequest {
 	private String title;
 	private int price;
 	private String description;
-	}
+}

@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zensar.olxloginapplication.entity.Token;
 import com.zensar.olxloginapplication.entity.TokenDto;
-import com.zensar.olxloginapplication.entity.User;
 import com.zensar.olxloginapplication.entity.UserDto;
 import com.zensar.olxloginapplication.service.LoginService;
 
@@ -44,9 +42,10 @@ public class LoginController {
 	@PostMapping(consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<UserDto> ResisterUser(@RequestBody UserDto user) {
 		UserDto resisterUser = loginService.ResisterUser(user);
-		if(resisterUser==null)
-		return new ResponseEntity<UserDto>(resisterUser, HttpStatus.BAD_REQUEST);
-		else return new ResponseEntity<UserDto>(resisterUser, HttpStatus.CREATED);
+		if (resisterUser == null)
+			return new ResponseEntity<UserDto>(resisterUser, HttpStatus.BAD_REQUEST);
+		else
+			return new ResponseEntity<UserDto>(resisterUser, HttpStatus.CREATED);
 	}
 
 	// request 4

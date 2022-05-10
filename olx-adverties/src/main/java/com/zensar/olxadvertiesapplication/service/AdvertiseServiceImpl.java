@@ -40,12 +40,12 @@ public class AdvertiseServiceImpl implements AdvertiseService {
 	public AdvertiseResponse updateAdvertise(long id, AdvertiseRequest advertise2, String token2) {
 		if (token2.equals("gs66548")) {
 			AdvertiseResponse advertiseById = getAdvertiseById(id, token2);
-			Advertise map = modelMapper.map(advertiseById,Advertise.class);
+			Advertise map = modelMapper.map(advertiseById, Advertise.class);
 			map.setTitle(advertise2.getTitle());
 			map.setPrice(advertise2.getPrice());
-			//map.setId(advertise2.getStatusId());
+			// map.setId(advertise2.getStatusId());
 			map.setDescription(advertise2.getDescription());
-				return modelMapper.map(advertiseRepository.save(map), AdvertiseResponse.class);
+			return modelMapper.map(advertiseRepository.save(map), AdvertiseResponse.class);
 		} else
 			return null;
 	}
@@ -91,23 +91,23 @@ public class AdvertiseServiceImpl implements AdvertiseService {
 	}
 
 	@Override
-	public List<AdvertiseResponse> getFilteredAdvertise(String searchText,String category) {
-				List<Advertise> findAll = advertiseRepository.searchByFilterCriteria(searchText,category);
-				List<AdvertiseResponse> listOfResponse = new ArrayList<AdvertiseResponse>();
-				for (Advertise advertise : findAll)
-					listOfResponse.add(modelMapper.map(advertise, AdvertiseResponse.class));
-				return listOfResponse;
-			
+	public List<AdvertiseResponse> getFilteredAdvertise(String searchText, String category) {
+		List<Advertise> findAll = advertiseRepository.searchByFilterCriteria(searchText, category);
+		List<AdvertiseResponse> listOfResponse = new ArrayList<AdvertiseResponse>();
+		for (Advertise advertise : findAll)
+			listOfResponse.add(modelMapper.map(advertise, AdvertiseResponse.class));
+		return listOfResponse;
+
 	}
 
 	@Override
 	public List<AdvertiseResponse> getAdvertiseByText(String searchText) {
-		
-				List<Advertise> findAll = advertiseRepository.searchByText(searchText);
-				List<AdvertiseResponse> listOfResponse = new ArrayList<AdvertiseResponse>();
-				for (Advertise advertise : findAll) 
-					listOfResponse.add(modelMapper.map(advertise, AdvertiseResponse.class));
-				return listOfResponse;
+
+		List<Advertise> findAll = advertiseRepository.searchByText(searchText);
+		List<AdvertiseResponse> listOfResponse = new ArrayList<AdvertiseResponse>();
+		for (Advertise advertise : findAll)
+			listOfResponse.add(modelMapper.map(advertise, AdvertiseResponse.class));
+		return listOfResponse;
 
 	}
 

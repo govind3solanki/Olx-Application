@@ -9,11 +9,12 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-public class SecurityConfing extends WebSecurityConfigurerAdapter{
+public class SecurityConfing extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("tom").password("tom@123").roles("ADMIN").and().withUser("jarry").password("jarry@123").roles("custumer");
+		auth.inMemoryAuthentication().withUser("tom").password("tom@123").roles("ADMIN").and().withUser("jarry")
+				.password("jarry@123").roles("custumer");
 	}
 
 	@Bean
@@ -25,5 +26,5 @@ public class SecurityConfing extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 	}
-	
+
 }

@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "category")
 public class Category {
-		
-		@Id
-		private long id;
-		private String category;
+
+	@Id
+	private long id;
+	private String category;
 }

@@ -27,4 +27,3 @@ public class Advertise {
 	private String status;
 
 }
-

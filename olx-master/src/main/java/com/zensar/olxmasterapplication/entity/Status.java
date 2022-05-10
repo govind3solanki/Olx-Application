@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "status")
 public class Status {
-	
+
 	@Id
 	private long id;
 	private String status;

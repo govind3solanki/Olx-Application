@@ -1,6 +1,5 @@
 package com.zensar.olxloginapplication.entity;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nonapi.io.github.classgraph.json.Id;
 
 @Data
 @NoArgsConstructor
@@ -20,7 +18,7 @@ import nonapi.io.github.classgraph.json.Id;
 @Entity
 @Table(name = "Users")
 public class User {
-	
+
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "Id")

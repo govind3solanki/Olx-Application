@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.zensar.olxloginapplication.entity.User;
 
 @Repository
-public interface LoginRepository extends JpaRepository<User, Long>{
+public interface LoginRepository extends JpaRepository<User, Long> {
 
 }

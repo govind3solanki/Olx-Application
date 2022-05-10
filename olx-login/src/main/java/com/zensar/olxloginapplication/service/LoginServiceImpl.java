@@ -17,23 +17,23 @@ import com.zensar.olxloginapplication.repository.LoginRepository;
 public class LoginServiceImpl implements LoginService {
 
 	Token token = new Token();
-		
+
 	@Autowired
 	private LoginRepository loginRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Override
 	public TokenDto userAuthentication(UserDto user) {
 		if (user.getUserName().equals("anand") && user.getPassword().equals("anand123")) {
 			token.setKye("auth-token");
-			 Random rand = new Random();
-		        int random = rand.nextInt(1000);
-		        String s="gs6654"+random+"";
-		        System.out.println(s);
+			Random rand = new Random();
+			int random = rand.nextInt(1000);
+			String s = "gs6654" + random + "";
+			// System.out.println(s);
 			token.setValue(s);
-			return modelMapper.map(token,TokenDto.class);
+			return modelMapper.map(token, TokenDto.class);
 		}
 		return null;
 	}
@@ -50,8 +50,8 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	public UserDto ResisterUser(UserDto user) {
-			loginRepository.save(modelMapper.map(user,User.class));
-			return user;
+		loginRepository.save(modelMapper.map(user, User.class));
+		return user;
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class LoginServiceImpl implements LoginService {
 		if (token.getValue().equals(token2)) {
 			Optional<User> findById = loginRepository.findById(id);
 			if (findById.isPresent()) {
-				return modelMapper.map(findById.get(),UserDto.class);
+				return modelMapper.map(findById.get(), UserDto.class);
 			} else
 				return null;
 		} else
