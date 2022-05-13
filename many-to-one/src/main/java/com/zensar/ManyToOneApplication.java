@@ -19,7 +19,6 @@ public class ManyToOneApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(ManyToOneApplication.class, args);
 	}
-
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
