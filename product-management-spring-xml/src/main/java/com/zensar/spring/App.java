@@ -15,14 +15,14 @@ public class App
         
         ProductService service=context.getBean("service",ProductService.class);
         
-       // Product product=new Product(2,"Laptop",150000);
-       // service.insertProduct(product);
+        Product product=new Product(3,"Laptop",150000);
+        service.insertProduct(product);
         
-       // System.out.println(service.getAllProducts());
+        System.out.println(service.getAllProducts());
         
        //service.updateProduct(2,"tv",3456);
         
-        service.deleteProduct(2);
+        //service.deleteProduct(2);
         
         System.out.println("Product inserted successfullyyyyy !!!");
         
